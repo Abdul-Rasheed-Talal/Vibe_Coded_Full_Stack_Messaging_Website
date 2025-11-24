@@ -14,6 +14,10 @@ const navItems = [
     { icon: User, label: 'Profile', href: '/profile' },
 ]
 
+import { ModeToggle } from '@/components/mode-toggle'
+
+// ... imports ...
+
 export function Sidebar() {
     const pathname = usePathname()
 
@@ -21,8 +25,10 @@ export function Sidebar() {
         <div className="flex h-screen w-16 flex-col justify-between border-r bg-background px-2 py-4 md:w-64 md:px-4">
             <div className="space-y-8">
                 <div className="flex items-center justify-center md:justify-start md:px-2">
-                    <Instagram className="h-8 w-8" />
-                    <span className="ml-2 hidden text-xl font-bold md:block">ChatApp</span>
+                    <Instagram className="h-8 w-8 text-primary" />
+                    <span className="ml-2 hidden text-xl font-bold md:block bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
+                        Vibe Chat
+                    </span>
                 </div>
 
                 <nav className="space-y-2">
@@ -47,6 +53,10 @@ export function Sidebar() {
             </div>
 
             <div className="space-y-2">
+                <div className="flex w-full items-center justify-center md:justify-start md:px-4">
+                    <ModeToggle />
+                    <span className="ml-3 hidden text-sm font-medium md:block">Theme</span>
+                </div>
                 <form action={signout}>
                     <Button
                         variant="ghost"
