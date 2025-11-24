@@ -33,18 +33,17 @@ export default function VerifyPage() {
                 addLog(`'avatars' bucket exists: ${!!avatarsBucket}`)
             }
 
-            // Check Profiles RLS
-            addLog('Checking Profiles table access...')
-            const { data: profile, error: profileError } = await supabase
+            // Check Profiles RLS (List all)
+            addLog('Checking visibility of all profiles...')
+            const { data: profiles, error: profilesError } = await supabase
                 .from('profiles')
-                .select('*')
-                .eq('id', session.user.id)
-                .single()
+                .select('id, username')
+                .limit(5)
 
-            if (profileError) {
-                addLog(`Error fetching profile: ${JSON.stringify(profileError)}`)
+            if (profilesError) {
+                addLog(`Error fetching profiles: ${JSON.stringify(profilesError)}`)
             } else {
-                addLog(`Profile found: ${profile.username}`)
+                addLog(`Profiles found (${profiles.length}): ${profiles.map(p => p.username).join(', ')}`)
             }
 
             addLog('Verification complete.')
