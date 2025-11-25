@@ -37,20 +37,22 @@ export function AuthForm() {
             </div>
 
             <div className="flex p-1 bg-muted rounded-lg">
-                <button
+                <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => setIsLogin(true)}
-                    className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${isLogin ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'
-                        }`}
+                    className={`flex-1 ${isLogin ? 'bg-background shadow-sm hover:bg-background' : 'text-muted-foreground hover:text-foreground'}`}
                 >
                     Login
-                </button>
-                <button
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => setIsLogin(false)}
-                    className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${!isLogin ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'
-                        }`}
+                    className={`flex-1 ${!isLogin ? 'bg-background shadow-sm hover:bg-background' : 'text-muted-foreground hover:text-foreground'}`}
                 >
                     Sign Up
-                </button>
+                </Button>
             </div>
 
             <form action={async () => { await signInWithGoogle() }}>

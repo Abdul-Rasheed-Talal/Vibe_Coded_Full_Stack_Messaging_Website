@@ -54,25 +54,31 @@ export default function DashboardLayout({
 
             {/* Mobile Bottom Nav */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-card/80 backdrop-blur-xl border-t border-border/40 flex items-center justify-around z-50 px-4">
-                <Link href="/direct" className={`p-2 rounded-full ${pathname.startsWith('/direct') ? 'text-primary bg-primary/10' : 'text-muted-foreground'}`}>
-                    <MessageSquare className="h-6 w-6" />
+                <Link href="/direct" className={`flex flex-col items-center p-1 rounded-lg ${pathname.startsWith('/direct') ? 'text-primary' : 'text-muted-foreground'}`}>
+                    <MessageSquare className="h-5 w-5" />
+                    <span className="text-[10px] mt-1">Chats</span>
                 </Link>
-                <Link href="/profile" className={`p-2 rounded-full ${pathname === '/profile' ? 'text-primary bg-primary/10' : 'text-muted-foreground'}`}>
-                    <User className="h-6 w-6" />
+                <Link href="/profile" className={`flex flex-col items-center p-1 rounded-lg ${pathname === '/profile' ? 'text-primary' : 'text-muted-foreground'}`}>
+                    <User className="h-5 w-5" />
+                    <span className="text-[10px] mt-1">Profile</span>
                 </Link>
-                <Button variant="ghost" size="icon" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
-                    <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+                    <div className="relative h-5 w-5">
+                        <Sun className="absolute inset-0 h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                        <Moon className="absolute inset-0 h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                    </div>
+                    <span className="text-[10px] mt-1">Theme</span>
                 </Button>
                 <form action={signout}>
-                    <Button variant="ghost" size="icon" className="text-destructive">
+                    <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1 text-destructive">
                         <LogOut className="h-5 w-5" />
+                        <span className="text-[10px] mt-1">Logout</span>
                     </Button>
                 </form>
             </nav>
 
             {/* Main Content (Middle Column) */}
-            <main className="flex-1 relative overflow-hidden flex flex-col">
+            <main className="flex-1 relative overflow-hidden flex flex-col pb-16 md:pb-0">
                 {/* Background Gradients */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
                     <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[100px]" />
@@ -83,16 +89,6 @@ export default function DashboardLayout({
                     {children}
                 </div>
             </main>
-
-            {/* Right Column (Info/Media) - Placeholder for now, can be toggleable */}
-            {/* <aside className="hidden lg:block w-80 border-l border-border/40 bg-card/30 backdrop-blur-xl p-6">
-                <h3 className="font-semibold mb-4">Shared Media</h3>
-                <div className="grid grid-cols-3 gap-2">
-                    {[1,2,3,4,5,6].map(i => (
-                        <div key={i} className="aspect-square rounded-md bg-muted/50 animate-pulse" />
-                    ))}
-                </div>
-            </aside> */}
         </div>
     )
 }
