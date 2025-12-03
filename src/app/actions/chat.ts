@@ -221,3 +221,34 @@ export async function searchUsers(query: string) {
 
   return users
 }
+
+export async function getTotalUnreadCount() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) return 0
+
+  // Get all conversations for the user
+  const { data: participations } = await supabase
+    .from('conversation_participants')
+    .select('conversation_id, last_read_at')
+    .eq('user_id', user.id)
+
+  if (!participations || participations.length === 0) return 0
+
+  let totalUnread = 0
+
+  // For each conversation, count messages newer than last_read_at
+  // This could be optimized with a better query but this is safe for now
+  for (const p of participations) {
+    const { count } = await supabase
+      .from('messages')
+      .select('*', { count: 'exact', head: true })
+      .eq('conversation_id', p.conversation_id)
+      .gt('created_at', p.last_read_at)
+
+    totalUnread += count || 0
+  }
+
+  return totalUnread
+}

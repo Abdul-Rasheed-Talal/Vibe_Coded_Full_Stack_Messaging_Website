@@ -137,19 +137,23 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#06b6d4" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
       </head>
-      <body className={`font-sans antialiased bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen`}>
+      <body className={`font-sans antialiased bg-background text-foreground min-h-screen`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
-          enableSystem
+          forcedTheme="dark"
+          enableSystem={false}
           disableTransitionOnChange
           storageKey="vibe-chat-theme"
         >
-          {/* Background Animation Elements */}
-          <div className="fixed inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute -top-40 -right-40 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+          {/* Animated Background Layer */}
+          <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+            {/* Primary Orb */}
+            <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-primary/20 rounded-full blur-[100px] animate-float opacity-70 mix-blend-screen dark:mix-blend-screen" />
+            {/* Secondary Orb */}
+            <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-secondary/20 rounded-full blur-[100px] animate-float opacity-70 mix-blend-screen dark:mix-blend-screen" style={{ animationDelay: '2s' }} />
+            {/* Accent Orb */}
+            <div className="absolute top-[40%] left-[40%] w-[30vw] h-[30vw] bg-accent/20 rounded-full blur-[80px] animate-pulse-slow opacity-50 mix-blend-screen dark:mix-blend-screen" />
           </div>
 
           {/* Main Content */}

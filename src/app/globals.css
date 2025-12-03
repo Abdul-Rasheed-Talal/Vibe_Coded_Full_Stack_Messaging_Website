@@ -2,85 +2,48 @@
 
 @layer base {
   :root {
-    /* Light Mode (Neon Pastel) */
-    --background: 220 33% 98%;
-    /* #F7F8FB */
-    --foreground: 222 47% 11%;
-    /* #111827 */
-
-    --card: 0 0% 100%;
-    /* #FFFFFF */
-    --card-foreground: 222 47% 11%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-
-    /* Neon Violet */
-    --primary: 252 100% 68%;
-    /* #7C5CFF */
-    --primary-foreground: 0 0% 100%;
-    --primary-500: 252 100% 68%;
-
-    /* Cyan Accent */
-    --accent: 190 100% 50%;
-    /* #00D4FF */
-    --accent-foreground: 222 47% 11%;
-    --accent-400: 190 100% 50%;
-
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 252 100% 68%;
-
-    --radius: 0.75rem;
-    /* 12px */
-  }
-
-  .dark {
-    /* Dark Mode (Neon Glow) */
-    --background: 222 47% 6%;
-    /* #0B0E14 */
+    /* Dark Mode (Cyber Night) - Default & Only Theme */
+    --background: 260 50% 8%;
+    /* Deep Violet Black */
     --foreground: 210 40% 98%;
+    /* Soft White */
 
-    --card: 220 26% 11%;
-    /* #151921 */
+    --card: 260 40% 12%;
+    /* Dark Violet Card */
     --card-foreground: 210 40% 98%;
 
-    --popover: 220 26% 11%;
+    --popover: 260 40% 12%;
+    /* Solid Dark Violet for Popups */
     --popover-foreground: 210 40% 98%;
 
-    /* Neon Violet Glow */
-    --primary: 252 100% 71%;
-    /* #8B6DFF */
-    --primary-foreground: 210 40% 98%;
-    --primary-500: 252 100% 71%;
+    /* Neon Blue Primary */
+    --primary: 240 100% 70%;
+    /* #818CF8 - Neon Indigo */
+    --primary-foreground: 0 0% 100%;
+    --primary-500: 240 100% 70%;
 
-    /* Cyan Glow */
-    --accent: 186 100% 50%;
-    /* #00E5FF */
-    --accent-foreground: 210 40% 98%;
-    --accent-400: 186 100% 50%;
+    /* Neon Pink Secondary */
+    --secondary: 310 90% 65%;
+    /* #F472B6 - Neon Pink */
+    --secondary-foreground: 0 0% 100%;
 
-    --secondary: 217 19% 27%;
-    --secondary-foreground: 210 40% 98%;
+    /* Neon Cyan Accent */
+    --accent: 180 100% 50%;
+    /* #22D3EE - Neon Cyan */
+    --accent-foreground: 260 50% 8%;
+    --accent-400: 180 100% 50%;
 
-    --muted: 217 19% 27%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 260 30% 20%;
+    --muted-foreground: 260 20% 70%;
 
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 90% 65%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217 19% 27%;
-    --input: 217 19% 27%;
-    --ring: 252 100% 71%;
+    --border: 260 30% 20%;
+    --input: 260 30% 20%;
+    --ring: 240 100% 70%;
+
+    --radius: 1rem;
   }
 }
 
@@ -92,21 +55,5 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-  }
-}
-
-@layer utilities {
-  .glow-text {
-    text-shadow: 0 0 10px hsl(var(--primary) / 0.5);
-  }
-
-  .glow-box {
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.2);
-  }
-
-  .glass {
-    background-color: hsl(var(--background) / 0.6);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 }

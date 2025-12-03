@@ -64,7 +64,7 @@ export default function ProfilePage({ userProfile, userId }: { userProfile: any,
     }
 
     return (
-        <div className="container max-w-lg py-10">
+        <div className="w-full max-w-4xl mx-auto px-6 md:px-12 py-10">
             <h1 className="text-3xl font-bold mb-8 glow-text">Edit Profile</h1>
 
             <div className="flex flex-col items-center mb-8">

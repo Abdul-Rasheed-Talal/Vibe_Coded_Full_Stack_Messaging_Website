@@ -7,6 +7,13 @@ module.exports = {
         "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     ],
     theme: {
+        container: {
+            center: true,
+            padding: "2rem",
+            screens: {
+                "2xl": "1400px",
+            },
+        },
         extend: {
             colors: {
                 border: "hsl(var(--border))",
@@ -15,13 +22,13 @@ module.exports = {
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
                 primary: {
-                    DEFAULT: "hsl(var(--primary))",
-                    foreground: "hsl(var(--primary-foreground))",
-                    500: "hsl(var(--primary-500))",
+                    DEFAULT: "#6D28D9", // Electric Purple
+                    foreground: "#FFFFFF",
+                    500: "#6D28D9",
                 },
                 secondary: {
-                    DEFAULT: "hsl(var(--secondary))",
-                    foreground: "hsl(var(--secondary-foreground))",
+                    DEFAULT: "#DB2777", // Hot Pink
+                    foreground: "#FFFFFF",
                 },
                 destructive: {
                     DEFAULT: "hsl(var(--destructive))",
@@ -32,13 +39,13 @@ module.exports = {
                     foreground: "hsl(var(--muted-foreground))",
                 },
                 accent: {
-                    DEFAULT: "hsl(var(--accent))",
-                    foreground: "hsl(var(--accent-foreground))",
-                    400: "hsl(var(--accent-400))",
+                    DEFAULT: "#06B6D4", // Cyan
+                    foreground: "#0F172A",
+                    400: "#06B6D4",
                 },
                 popover: {
-                    DEFAULT: "hsl(var(--popover))",
-                    foreground: "hsl(var(--popover-foreground))",
+                    DEFAULT: "#FFFFFF", // Solid White
+                    foreground: "#0F172A",
                 },
                 card: {
                     DEFAULT: "hsl(var(--card))",
@@ -59,20 +66,16 @@ module.exports = {
                     from: { height: "var(--radix-accordion-content-height)" },
                     to: { height: "0" },
                 },
-                "pulse-glow": {
-                    "0%, 100%": { opacity: "1", transform: "scale(1)" },
-                    "50%": { opacity: "0.5", transform: "scale(0.95)" },
-                },
                 "float": {
                     "0%, 100%": { transform: "translateY(0)" },
-                    "50%": { transform: "translateY(-10px)" },
-                }
+                    "50%": { transform: "translateY(-20px)" },
+                },
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
-                "pulse-glow": "pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-                "float": "float 3s ease-in-out infinite",
+                "float": "float 6s ease-in-out infinite",
+                "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
             },
         }
     },

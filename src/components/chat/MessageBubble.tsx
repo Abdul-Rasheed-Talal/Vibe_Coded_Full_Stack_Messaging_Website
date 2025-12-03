@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 
@@ -9,7 +8,7 @@ type MessageBubbleProps = {
         id: number | string
         content: string
         created_at: string
-        attachments?: { type: 'image' | 'file'; url: string; name: string }[]
+        attachments?: { type: 'image' | 'file' | 'audio'; url: string; name: string }[]
     }
     isMe: boolean
     showAvatar?: boolean
@@ -17,21 +16,18 @@ type MessageBubbleProps = {
 
 export function MessageBubble({ message, isMe, showAvatar }: MessageBubbleProps) {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ type: "spring", stiffness: 300, damping: 24 }}
+        <div
             className={cn(
-                "flex w-full",
+                "flex w-full mb-2",
                 isMe ? "justify-end" : "justify-start"
             )}
         >
             <div
                 className={cn(
-                    "relative max-w-[75%] px-5 py-3 text-sm shadow-sm transition-all hover:scale-[1.01]",
+                    "relative max-w-[75%] px-4 py-3 text-sm rounded-2xl shadow-sm",
                     isMe
-                        ? "bg-gradient-to-br from-primary to-primary-500 text-primary-foreground rounded-[20px] rounded-tr-[4px] shadow-lg shadow-primary/20"
-                        : "bg-card/80 backdrop-blur-md border border-border/50 text-foreground rounded-[20px] rounded-tl-[4px]"
+                        ? "bg-primary text-primary-foreground rounded-tr-sm"
+                        : "bg-muted text-foreground border border-border/50 rounded-tl-sm"
                 )}
             >
                 {/* Attachments */}
@@ -41,15 +37,19 @@ export function MessageBubble({ message, isMe, showAvatar }: MessageBubbleProps)
                             <img
                                 src={att.url}
                                 alt="attachment"
-                                className="max-w-full rounded-xl border border-white/10"
+                                className="max-w-full rounded-md"
                                 loading="lazy"
                             />
+                        ) : att.type === 'audio' ? (
+                            <div className="flex items-center gap-2 min-w-[200px]">
+                                <audio controls src={att.url} className="w-full h-8" />
+                            </div>
                         ) : (
                             <a
                                 href={att.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-2 p-3 rounded-lg bg-background/20 hover:bg-background/30 transition-colors"
+                                className="flex items-center gap-2 p-2 rounded bg-background/10 hover:bg-background/20 transition-colors"
                             >
                                 <span className="text-xs underline truncate">{att.name}</span>
                             </a>
@@ -72,6 +72,6 @@ export function MessageBubble({ message, isMe, showAvatar }: MessageBubbleProps)
                     {format(new Date(message.created_at), 'h:mm a')}
                 </span>
             </div>
-        </motion.div>
+        </div>
     )
 }

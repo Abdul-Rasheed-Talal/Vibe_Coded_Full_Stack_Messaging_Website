@@ -1,200 +1,133 @@
-'use client'
+"use client"
 
-import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { useState } from 'react'
+import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { updateProfile } from '@/app/actions/profile'
-import { Camera, Loader2 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { Bell, Lock, Shield, Eye, Smartphone, LogOut } from 'lucide-react'
+import { signout } from '@/app/login/actions'
 
 export default function SettingsPage() {
-    const [user, setUser] = useState<any>(null)
-    const [loading, setLoading] = useState(true)
-    const [saving, setSaving] = useState(false)
-    const [formData, setFormData] = useState({
-        username: '',
-        full_name: '',
-        avatar_url: '',
-        status: '',
+    const [notifications, setNotifications] = useState({
+        email: true,
+        push: true,
+        sound: false
     })
-    const supabase = createClient()
-    const router = useRouter()
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) {
-                router.push('/login')
-                return
-            }
-
-            const { data: profile } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', user.id)
-                .single()
-
-            if (profile) {
-                setUser(user)
-                setFormData({
-                    username: profile.username || '',
-                    full_name: profile.full_name || '',
-                    avatar_url: profile.avatar_url || '',
-                    status: profile.status || '',
-                })
-            }
-            setLoading(false)
-        }
-
-        fetchUser()
-    }, [supabase, router])
-
-    const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
-        if (!file || !user) return
-
-        try {
-            const fileExt = file.name.split('.').pop()
-            const filePath = `${user.id}/avatar.${fileExt}`
-
-            const { error: uploadError } = await supabase.storage
-                .from('avatars')
-                .upload(filePath, file, { upsert: true })
-
-            if (uploadError) throw uploadError
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('avatars')
-                .getPublicUrl(filePath)
-
-            setFormData(prev => ({ ...prev, avatar_url: publicUrl }))
-        } catch (error) {
-            console.error('Error uploading avatar:', error)
-            alert('Error uploading avatar')
-        }
-    }
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        setSaving(true)
-
-        try {
-            const formDataToSend = new FormData()
-            formDataToSend.append('username', formData.username)
-            formDataToSend.append('fullName', formData.full_name)
-            formDataToSend.append('avatarUrl', formData.avatar_url)
-            formDataToSend.append('status', formData.status)
-
-            const result = await updateProfile(formDataToSend)
-            if (result?.error) {
-                alert(result.error)
-            } else {
-                alert('Profile updated successfully!')
-                router.refresh()
-            }
-        } catch (error) {
-            console.error('Error updating profile:', error)
-            alert('Failed to update profile')
-        } finally {
-            setSaving(false)
-        }
-    }
-
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center h-full">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        )
-    }
+    const [privacy, setPrivacy] = useState({
+        onlineStatus: true,
+        readReceipts: true
+    })
 
     return (
-        <div className="container max-w-2xl py-8 space-y-8">
+        <div className="w-full max-w-4xl mx-auto px-6 md:px-12 py-10 space-y-8">
             <div>
                 <h1 className="text-3xl font-bold glow-text mb-2">Settings</h1>
-                <p className="text-muted-foreground">Manage your account and profile preferences.</p>
+                <p className="text-muted-foreground">Manage your app preferences and privacy.</p>
             </div>
 
-            <Card className="bg-card/50 backdrop-blur-xl border-border/50">
-                <CardHeader>
-                    <CardTitle>Profile Information</CardTitle>
-                    <CardDescription>Update your public profile details.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="flex flex-col items-center gap-4">
-                            <div className="relative group cursor-pointer">
-                                <Avatar className="h-24 w-24 ring-4 ring-background shadow-xl">
-                                    <AvatarImage src={formData.avatar_url} />
-                                    <AvatarFallback className="text-2xl">
-                                        {formData.username?.[0]?.toUpperCase()}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <label className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                                    <Camera className="h-8 w-8 text-white" />
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        className="hidden"
-                                        onChange={handleAvatarUpload}
-                                    />
-                                </label>
+            <div className="grid gap-6">
+                {/* Notifications Section */}
+                <div className="bg-card/30 backdrop-blur-md border border-border/50 rounded-2xl p-6 space-y-6">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                            <Bell className="h-5 w-5" />
+                        </div>
+                        <h2 className="text-xl font-semibold">Notifications</h2>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="font-medium">Push Notifications</p>
+                                <p className="text-sm text-muted-foreground">Receive notifications on your device</p>
                             </div>
-                            <p className="text-sm text-muted-foreground">Click to change avatar</p>
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="username">Username</Label>
-                            <Input
-                                id="username"
-                                value={formData.username}
-                                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                                placeholder="@username"
-                                className="bg-background/50"
+                            <Switch
+                                checked={notifications.push}
+                                onCheckedChange={(c) => setNotifications(prev => ({ ...prev, push: c }))}
                             />
                         </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="fullName">Full Name</Label>
-                            <Input
-                                id="fullName"
-                                value={formData.full_name}
-                                onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                                placeholder="John Doe"
-                                className="bg-background/50"
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="font-medium">Email Notifications</p>
+                                <p className="text-sm text-muted-foreground">Receive digest emails</p>
+                            </div>
+                            <Switch
+                                checked={notifications.email}
+                                onCheckedChange={(c) => setNotifications(prev => ({ ...prev, email: c }))}
                             />
                         </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="status">Status</Label>
-                            <Input
-                                id="status"
-                                value={formData.status}
-                                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                placeholder="What's on your mind?"
-                                className="bg-background/50"
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="font-medium">Sound Effects</p>
+                                <p className="text-sm text-muted-foreground">Play sounds for new messages</p>
+                            </div>
+                            <Switch
+                                checked={notifications.sound}
+                                onCheckedChange={(c) => setNotifications(prev => ({ ...prev, sound: c }))}
                             />
                         </div>
+                    </div>
+                </div>
 
-                        <div className="pt-4">
-                            <Button type="submit" className="w-full glow-box" disabled={saving}>
-                                {saving ? (
-                                    <>
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Saving...
-                                    </>
-                                ) : (
-                                    'Save Changes'
-                                )}
+                {/* Privacy Section */}
+                <div className="bg-card/30 backdrop-blur-md border border-border/50 rounded-2xl p-6 space-y-6">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2 rounded-lg bg-accent/10 text-accent">
+                            <Lock className="h-5 w-5" />
+                        </div>
+                        <h2 className="text-xl font-semibold">Privacy</h2>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="font-medium">Online Status</p>
+                                <p className="text-sm text-muted-foreground">Show others when you're online</p>
+                            </div>
+                            <Switch
+                                checked={privacy.onlineStatus}
+                                onCheckedChange={(c) => setPrivacy(prev => ({ ...prev, onlineStatus: c }))}
+                            />
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="font-medium">Read Receipts</p>
+                                <p className="text-sm text-muted-foreground">Show others when you've read their messages</p>
+                            </div>
+                            <Switch
+                                checked={privacy.readReceipts}
+                                onCheckedChange={(c) => setPrivacy(prev => ({ ...prev, readReceipts: c }))}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Account Section */}
+                <div className="bg-card/30 backdrop-blur-md border border-border/50 rounded-2xl p-6 space-y-6">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2 rounded-lg bg-destructive/10 text-destructive">
+                            <Shield className="h-5 w-5" />
+                        </div>
+                        <h2 className="text-xl font-semibold">Account</h2>
+                    </div>
+
+                    <div className="space-y-4">
+                        <Button variant="outline" className="w-full justify-start text-left h-auto py-3">
+                            <div className="flex flex-col items-start">
+                                <span className="font-medium">Change Password</span>
+                                <span className="text-xs text-muted-foreground">Update your security credentials</span>
+                            </div>
+                        </Button>
+
+                        <form action={signout}>
+                            <Button variant="destructive" className="w-full justify-start">
+                                <LogOut className="mr-2 h-4 w-4" />
+                                Sign Out
                             </Button>
-                        </div>
-                    </form>
-                </CardContent>
-            </Card>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

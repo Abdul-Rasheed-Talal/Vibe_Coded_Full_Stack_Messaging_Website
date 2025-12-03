@@ -19,7 +19,7 @@ export default async function ConversationsPage() {
     const suggestedUsers = await getSuggestedUsers()
 
     return (
-        <div className="container h-full overflow-y-auto max-w-2xl py-8">
+        <div className="w-full max-w-4xl mx-auto px-6 md:px-12 py-10 h-full overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-2xl font-bold glow-text">Messages</h1>
                 <Link href="/direct/new">

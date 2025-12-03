@@ -51,11 +51,21 @@ export function UserGrid({ users }: { users: any[] }) {
                             @{user.username}
                         </p>
 
-                        {user.status && (
-                            <div className="mb-6 px-3 py-1 rounded-full bg-secondary/50 text-xs font-medium text-secondary-foreground truncate max-w-full">
-                                {user.status}
+                        {/* Vibe Badge */}
+                        {user.vibe ? (
+                            <div className="mb-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/20 text-xs font-semibold text-primary truncate max-w-full shadow-sm">
+                                {user.vibe}
+                            </div>
+                        ) : (
+                            <div className="mb-2 px-4 py-1.5 rounded-full bg-muted/30 text-xs font-medium text-muted-foreground truncate max-w-full">
+                                No vibe set
                             </div>
                         )}
+
+                        {/* Bio (Status) */}
+                        <p className="text-xs text-muted-foreground/80 italic truncate w-full px-4 mb-6">
+                            {user.status || "No bio"}
+                        </p>
 
                         <Link href={`/u/${user.id}`} className="w-full mt-auto">
                             <Button className="w-full glow-box group-hover:scale-105 transition-transform">
